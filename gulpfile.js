@@ -43,6 +43,21 @@ gulp.task("minifyScripts", ["jsBrowserify"], function(){
     .pipe(gulp.dest("./build/js"));
 });
 
+gulp.task('bowerJS', function () {
+  return gulp.src(lib.ext('js').files)
+  .pipe(concat('vendor.min.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest('./build/js'));
+});
+
+gulp.task('bowerCSS', function () {
+  return gulp.src(lib.ext('css').files)
+  .pipe(concat('vendor.css'))
+  .pipe(gulp.dest('./build/css'));
+});
+
+gulp.task('bower', ['bowerJS', 'bowerCSS']);
+
 gulp.task("clean", function(){
   return del(['build', 'tmp']);
 });
@@ -57,21 +72,21 @@ gulp.task('build', ['clean', 'jshint'], function(){
   gulp.start('cssBuild');
 });
 
+gulp.task('serve', function() {
+  browserSync.init({
+    server: {
+      baseDir: "./",
+      index: "index.html"
+    }
+  });
 
-gulp.task('bowerJS', function () {
-  return gulp.src(lib.ext('js').files)
-    .pipe(concat('vendor.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('./build/js'));
+  gulp.watch(['js/*.js'], ['jsBuild']);
+  gulp.watch(['bower.json'], ['bowerBuild']);
+  gulp.watch(['*.html'], ['htmlBuild']);
+  gulp.watch(['css/*.css'], ['cssBuild']);
+  gulp.watch(["scss/*.scss"], ['cssBuild']);
+
 });
-
-gulp.task('bowerCSS', function () {
-  return gulp.src(lib.ext('css').files)
-    .pipe(concat('vendor.css'))
-    .pipe(gulp.dest('./build/css'));
-});
-
-gulp.task('bower', ['bowerJS', 'bowerCSS']);
 
 gulp.task('jsBuild', ['jsBrowserify', 'jshint'], function(){
   browserSync.reload();
@@ -85,28 +100,13 @@ gulp.task('htmlBuild', function() {
   browserSync.reload();
 });
 
-gulp.task('serve', function() {
-  browserSync.init({
-    server: {
-      baseDir: "./",
-      index: "index.html"
-    }
-  });
-  gulp.watch(['js/*.js'], ['jsBuild']);
-  gulp.watch(['bower.json'], ['bowerBuild']);
-  gulp.watch(['*.html'], ['htmlBuild']);
-  gulp.watch(['css/*.css'], ['cssBuild']);
-  gulp.watch(["scss/*.scss"], ['cssBuild']);
-
-});
-
 gulp.task('cssBuild', function() {
   return gulp.src(['scss/*.scss'])
-    .pipe(sourcemaps.init())
-    .pipe(sass())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./build/css'))
-    .pipe(browserSync.stream());
+  .pipe(sourcemaps.init())
+  .pipe(sass())
+  .pipe(sourcemaps.write())
+  .pipe(gulp.dest('./build/css'))
+  .pipe(browserSync.stream());
 });
 
 gulp.task('jshint', function(){
