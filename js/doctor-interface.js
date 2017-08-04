@@ -1,3 +1,5 @@
+var Doctor = require('./../js/doctor.js').doctorModule;
+
 $(document).submit(function(event) {
   event.preventDefault();
 
