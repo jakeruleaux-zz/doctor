@@ -13,5 +13,5 @@ $(document).submit(function(event) {
 console.log(medicalIssue);
   var newDoctor = new Doctor(medicalIssue);
 
-  // newDoctor.getDoctors();
+  newDoctor.getDoctors();
 });
