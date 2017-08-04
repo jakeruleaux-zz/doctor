@@ -1,7 +1,9 @@
-var Doctor = require('./../js/doctor.js').doctorModule;
 var apiKey = require('./../.env').apiKey;
+console.log(apiKey);
+var Doctor = require('./../js/doctor.js').doctorModule;
 
 var listDoctors = function(doctorArray) {
+  console.log(listDoctors);
   // console.log(doctorArray);
 $('#doctor').append(doctorArray);
 };
