@@ -5,4 +5,5 @@ $(document).submit(function(event) {
 
   var userInput = $("#input").val();
   var doctor = new Doctor(userInput);
+  $('#doctor').append();
 });
