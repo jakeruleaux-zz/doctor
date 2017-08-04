@@ -1,9 +1,9 @@
 var apiKey = require('./../.env').apiKey;
 var Doctor = require('./../js/doctor.js').doctorModule;
 
-var listDoctors = function(doctorArray) {
-  console.log(doctorArray);
-$('#doctor').text(doctorArray);
+var listDoctors = function(medicalIssue, docData) {
+  console.log(docData);
+$('#doctor').text(medicalIssue + docData + "hi");
 };
 
 $(document).submit(function(event) {
